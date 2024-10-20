@@ -17,6 +17,16 @@ python-chess: a chess library for Python
     :target: https://gitter.im/python-chess/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
     :alt: Chat on Gitter
 
+Implementing Dark Chess as a Variant in order to build a bot on top of the interface
+-------
+To-Do List:
+- [ ] Implement DarkChess class in variants
+  - [ ] Make the chess.svg.board display the Dark Chess board correctly, as its the only chess variant with a different base board (fog)
+    - [ ] Implement dark board class and flag for svg.py
+- [ ] Figure out how to make UCI engine input work 
+  - [ ] Test with 'mock' engine with one move and see if it can take the input correctly/stockfish lol
+
+
 Introduction
 ------------
 

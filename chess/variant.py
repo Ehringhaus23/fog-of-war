@@ -1088,6 +1088,18 @@ class CrazyhouseBoard(chess.Board):
         return status
 
 
+class DarkBoard(chess.Board):
+    aliases = ['Fog of War', 'Fog of War Chess', 'Dark Chess']
+
+    tbw_suffix = None
+    tbz_suffix = None
+    tbw_magic = None
+    tbz_magic = None
+
+    # Maybe I
+
+
+
 VARIANTS: List[Type[chess.Board]] = [
     chess.Board,
     SuicideBoard, GiveawayBoard, AntichessBoard,

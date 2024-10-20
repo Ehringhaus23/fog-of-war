@@ -228,7 +228,8 @@ def board(board: Optional[chess.BaseBoard] = None, *,
           coordinates: bool = True,
           colors: Dict[str, str] = {},
           borders: bool = False,
-          style: Optional[str] = None) -> str:
+          style: Optional[str] = None,
+          dark: Optional[bool] = False) -> str:
     """
     Renders a board with pieces and/or selected squares as an SVG image.
 
@@ -257,6 +258,7 @@ def board(board: Optional[chess.BaseBoard] = None, *,
     :param borders: Pass ``True`` to enable a border around the board and,
        (if *coordinates* is enabled) the coordinate margin.
     :param style: A CSS stylesheet to include in the SVG image.
+    :param dark: If we want chess with fog to be implemented
 
     >>> import chess
     >>> import chess.svg
