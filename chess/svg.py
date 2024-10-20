@@ -513,5 +513,28 @@ def board(board: Optional[chess.BaseBoard] = None, *,
                 "opacity": opacity if opacity < 1.0 else None,
                 "class": "arrow",
             }))
+    
+    # Render the fog
+    if dark:
+        poss_squares = board.get_poss_squares()
+        occupied_squares = board.get_occupied_squares()
+        for square, bb in enumerate(chess.BB_SQUARES):
+            file_index = chess.square_file(square)
+            rank_index = chess.square_rank(square)
+
+            x = (file_index if orientation else 7 - file_index) * SQUARE_SIZE + board_offset
+            y = (7 - rank_index if orientation else rank_index) * SQUARE_SIZE + board_offset
+
+            if board is not None:
+                if square not in poss_squares and square not in occupied_squares:
+                    ET.SubElement(svg, "rect", _attrs({
+                        "x": x,
+                        "y": y,
+                        "width": SQUARE_SIZE,
+                        "height": SQUARE_SIZE,
+                        "stroke": "none",
+                        "fill": "#3d3838",
+                        "opacity": 1,
+                    }))
 
     return SvgWrapper(ET.tostring(svg).decode("utf-8"))

@@ -726,6 +726,9 @@ class Move:
         False
         """
         return cls(0, 0)
+    
+    def get_to_square(self):
+        return self.to_square
 
 
 BaseBoardT = TypeVar("BaseBoardT", bound="BaseBoard")
@@ -1696,11 +1699,15 @@ class Board(BaseBoard):
     manipulation.
     """
 
-    def __init__(self, fen: Optional[str] = STARTING_FEN, *, chess960: bool = False) -> None:
+    dark: bool
+    """
+    A flag to turn on whether or not the board is 'dark'
+    """
+
+    def __init__(self, fen: Optional[str] = STARTING_FEN, *, chess960: bool = False, dark: bool = False) -> None:
         BaseBoard.__init__(self, None)
 
         self.chess960 = chess960
-
         self.ep_square = None
         self.move_stack = []
         self._stack: List[_BoardState] = []
@@ -2000,6 +2007,24 @@ class Board(BaseBoard):
     def is_legal(self, move: Move) -> bool:
         return not self.is_variant_end() and self.is_pseudo_legal(move) and not self.is_into_check(move)
 
+    # Function to get ALL the squares of the legal moves
+    def get_poss_squares(self) -> List[str]:
+        # Get the set of all possible squares the current color can move to - returning as a list of strings
+        moves_set = set()
+        for move in self.generate_pseudo_legal_moves():
+            moves_set.add(move.get_to_square())
+        return list(moves_set)
+
+    def get_occupied_squares(self):
+        occupied_squares = []
+        for i in range(64):
+            # Check if the i-th bit is set to 1
+            if self.occupied_co[self.turn] & (1 << i):
+                occupied_squares.append(SQUARES[i])
+        return occupied_squares
+        
+
+
     def is_variant_end(self) -> bool:
         """
         Checks if the game is over due to a special variant end condition.
@@ -2211,7 +2236,7 @@ class Board(BaseBoard):
                         self.pop()
 
         return False
-
+    
     def can_claim_threefold_repetition(self) -> bool:
         """
         Checks if the player to move can claim a draw by threefold repetition.
@@ -3934,7 +3959,7 @@ class PseudoLegalMoveGenerator:
                 builder.append(self.board.uci(move))
 
         sans = ", ".join(builder)
-        return f"<PseudoLegalMoveGenerator at {id(self):#x} ({sans})>"
+        return f"<PseudoLegalMoveGenerator at {id(self):#x} ({sans})>"    
 
 
 class LegalMoveGenerator:

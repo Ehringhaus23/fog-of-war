@@ -1096,7 +1096,10 @@ class DarkBoard(chess.Board):
     tbw_magic = None
     tbz_magic = None
 
-    # Maybe I
+    # We have to keep track of whether or not its white/black's turn to play in order to know where to place the fog
+    curr_player = 1
+
+    
 
 
 
@@ -1109,6 +1112,7 @@ VARIANTS: List[Type[chess.Board]] = [
     HordeBoard,
     ThreeCheckBoard,
     CrazyhouseBoard,
+    DarkBoard,
 ]
 
 
